@@ -6,10 +6,10 @@ mermaid extension for Python-Markdown to add support for mermaid graph inside ma
 
 For `pip` installation (only python version >=3.x) :
 
-~~~shell
+```shell
 pip install markdown
 pip install md-mermaid
-~~~
+```
 
 ## Usage
 
@@ -23,19 +23,20 @@ text = """
 
 Some text.
 
-​~~~mermaid
+```mermaid
 graph TB
 A --> B
 B --> C
-​~~~
+```
 
 Some other text.
 
-​~~~mermaid
+~~~mermaid
 graph TB
 D --> E
 E --> F
-​~~~
+~~~
+
 """
 
 html = markdown.markdown(text, extensions=['md_mermaid'])
@@ -48,20 +49,18 @@ Output will result in :
 ~~~html
 <h1>Title</h1>
 <p>Some text.</p>
-<div class="mermaid">
+<pre class="mermaid">
 graph TB
 A --> B
 B --> C
-</div>
+</pre>
 
 <p>Some other text.</p>
-<div class="mermaid">
+<pre class="mermaid">
 graph TB
 D --> E
 E --> F
-</div>
-
-<script>mermaid.initialize({startOnLoad:true});</script>
+</pre>
 
 ~~~
 
@@ -69,7 +68,7 @@ The `<script>...</script>` line appears only once even if there are several grap
 
 > Note that the extension name have a '_' not a '-'.
 
-> Attention : don't forget to include in your output html project the two following mermaid files :
+> Attention: don’t forget to include in your output html project the two following Mermaid files :
 >
 > * mermaid.css (optional, can be customised)
-> * mermaid.min.js (can be download here [here](https://unpkg.com/mermaid@8.1.0/dist/)) 
+> * mermaid.min.js (can be download [on JSDelivr](https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js))
