@@ -16,15 +16,18 @@ from markdown.preprocessors import Preprocessor
 import re
 import string
 
+
 def strip_notprintable(myStr):
     return ''.join(filter(lambda x: x in string.printable, myStr))
 
-MermaidRegex = re.compile(r"^(?P<mermaid_sign>[\~\`]){3}[\ \t]*[Mm]ermaid[\ \t]*$")
+MermaidRegex = re.compile(
+    r"^(?P<mermaid_sign>[\~\`]){3}[\ \t]*[Mm]ermaid[\ \t]*$")
 
 
 # ------------------ The Markdown Extension -------------------------------
 
 class MermaidPreprocessor(Preprocessor):
+
     def run(self, lines):
         old_line = ""
         new_lines = []
@@ -34,11 +37,12 @@ class MermaidPreprocessor(Preprocessor):
         in_mermaid_code = False
         is_mermaid = False
         for line in lines:
-            # Wait for starting line with MermaidRegex (~~~ or ``` following by [mM]ermaid )
+            # Wait for starting line with MermaidRegex (~~~ or ``` following
+            # by [mM]ermaid )
             if not in_mermaid_code:
                 m_start = MermaidRegex.match(line)
             else:
-                m_end = re.match(r"^["+mermaid_sign+"]{3}[\ \t]*$", line)
+                m_end = re.match(r"^[" + mermaid_sign + "]{3}[\ \t]*$", line)
                 if m_end:
                     in_mermaid_code = False
 
@@ -56,28 +60,10 @@ class MermaidPreprocessor(Preprocessor):
                 new_lines.append('</div>')
                 new_lines.append("")
                 m_end = None
-            elif in_mermaid_code:
-                new_lines.append(strip_notprintable(line).strip())
             else:
                 new_lines.append(line)
 
             old_line = line
-
-        if is_mermaid:
-            new_lines.append('')
-            # This will initialize mermaid renderer. It's done only when the HTML document is ready,
-            # to ensure the loading of mermaid.js file is finished.
-            new_lines.append('''<script>
-                    function initializeMermaid() {
-                        mermaid.initialize({startOnLoad:true})
-                    }
-            
-                    if (document.readyState === "complete" || document.readyState === "interactive") {
-                        setTimeout(initializeMermaid, 1);
-                    } else {
-                        document.addEventListener("DOMContentLoaded", initializeMermaid);
-                    }
-            </script>''')
 
         return new_lines
 
@@ -85,12 +71,13 @@ class MermaidPreprocessor(Preprocessor):
 class MermaidExtension(Extension):
     """ Add source code hilighting to markdown codeblocks. """
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         """ Add HilitePostprocessor to Markdown instance. """
         # Insert a preprocessor before ReferencePreprocessor
         md.preprocessors.register(MermaidPreprocessor(md), 'mermaid', 35)
 
         md.registerExtension(self)
+
 
 def makeExtension(**kwargs):  # pragma: no cover
     return MermaidExtension(**kwargs)
