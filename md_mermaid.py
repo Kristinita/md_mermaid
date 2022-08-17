@@ -54,10 +54,10 @@ class MermaidPreprocessor(Preprocessor):
                 if not is_mermaid:
                     is_mermaid = True
                     #new_lines.append('<style type="text/css"> @import url("https://cdn.rawgit.com/knsv/mermaid/0.5.8/dist/mermaid.css"); </style>')
-                new_lines.append('<div class="mermaid">')
+                new_lines.append('<pre class="mermaid">')
                 m_start = None
             elif m_end:
-                new_lines.append('</div>')
+                new_lines.append('</pre>')
                 new_lines.append("")
                 m_end = None
             else:
