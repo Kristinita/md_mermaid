@@ -1,21 +1,17 @@
-# md_mermaid
+## 1. Summary
 
-mermaid extension for Python-Markdown to add support for mermaid graph inside markdown file
+Mermaid extension for Python-Markdown to add support for Mermaid graphs inside Markdown file.
 
-## Installation
-
-For `pip` installation (only python version >=3.x) :
+## 2. Installation
 
 ```shell
 pip install markdown
-pip install md-mermaid
+pip install git+https://github.com/Kristinita/md_mermaid.git@KiraMermaidWorking
 ```
 
-## Usage
+## 3. Usage
 
-In your python script :
-
-~~~python
+````python
 import markdown
 
 text = """
@@ -42,11 +38,14 @@ E --> F
 html = markdown.markdown(text, extensions=['md_mermaid'])
 
 print(html)
-~~~
+````
 
-Output will result in :
+> [!TIP]
+> Pay attention that extension name is `md_mermaid`, not `md-mermaid`.
 
-~~~html
+Output:
+
+```html
 <h1>Title</h1>
 <p>Some text.</p>
 <pre class="mermaid">
@@ -61,14 +60,9 @@ graph TB
 D --> E
 E --> F
 </pre>
+```
 
-~~~
+Don’t forget to include in your output HTML project 2 following Mermaid files:
 
-The `<script>...</script>` line appears only once even if there are several graphs in the file.
-
-> Note that the extension name have a '_' not a '-'.
-
-> Attention: don’t forget to include in your output html project the two following Mermaid files :
->
-> * mermaid.css (optional, can be customised)
-> * mermaid.min.js (can be download [on JSDelivr](https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js))
+1. `mermaid.css` (optional, can be customized)
+1. `mermaid.min.js` (can be fetched [**on JSDelivr**](https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js))
